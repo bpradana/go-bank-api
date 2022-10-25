@@ -1,0 +1,26 @@
+version: '3'
+
+services:
+  api:
+    build: .
+    restart: always
+    ports:
+      - '1323:1323'
+    depends_on:
+      - db
+    environment:
+      DB_HOST: db
+      DB_PORT: 5432
+      DB_USER: postgres
+      DB_PASS: postgres
+      DB_NAME: postgres
+
+  db:
+    image: postgres:14.5-alpine
+    restart: always
+    ports:
+      - '4001:5432'
+    environment:
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_DB: postgres
