@@ -37,8 +37,8 @@ func main() {
 	userRepository := users.NewUserRepository(db)
 	userUsecase := users.NewUserUsecase(userRepository)
 
-	v1 := e.Group("/api/v1")
-	users.NewUserHandler(v1, userUsecase)
+	usersGroup := e.Group("/api/v1/users")
+	users.NewUserHandler(usersGroup, userUsecase)
 
 	// Start server
 	e.Logger.Fatal(e.Start(":1323"))
