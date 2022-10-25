@@ -15,9 +15,11 @@ type User struct {
 // UserUseCase is a interface that represent user usecase
 type UserUsecase interface {
 	Register(u *User) (*User, error)
+	Login(u *User) (*User, string, error)
 }
 
 // UserRepository is a interface that represent user repository
 type UserRepository interface {
+	GetByEmail(email string) (*User, error)
 	Create(u *User) (*User, error)
 }
