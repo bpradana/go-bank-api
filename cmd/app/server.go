@@ -9,6 +9,7 @@ import (
 	"github.com/labstack/echo/v4/middleware"
 
 	"gitlab.com/bpradana/privy-pretest/cmd/db"
+	"gitlab.com/bpradana/privy-pretest/pkg/users"
 )
 
 func main() {
@@ -31,6 +32,13 @@ func main() {
 	// Middleware
 	e.Use(middleware.Logger())
 	e.Use(middleware.Recover())
+
+	// Routes
+	userRepository := users.NewUserRepository(db)
+	userUsecase := users.NewUserUsecase(userRepository)
+
+	v1 := e.Group("/api/v1")
+	users.NewUserHandler(v1, userUsecase)
 
 	// Start server
 	e.Logger.Fatal(e.Start(":1323"))
