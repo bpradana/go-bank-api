@@ -7,8 +7,8 @@ import (
 // User is a struct that represent user table
 type User struct {
 	gorm.Model
-	Username string `json:"username"`
-	Email    string `json:"email"`
+	Username string `json:"username" gorm:"unique"`
+	Email    string `json:"email" gorm:"unique"`
 	Password string `json:"password"`
 }
 
