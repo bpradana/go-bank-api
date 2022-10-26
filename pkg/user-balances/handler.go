@@ -82,7 +82,7 @@ func (h *BalanceHandler) Deposit(c echo.Context) error {
 	}
 
 	// Deposit balance
-	balance, err := h.balanceUsecase.Deposit(username, deposit.Amount)
+	balance, err := h.balanceUsecase.Deposit(username, deposit.Amount, c)
 	if err != nil {
 		log.Println("[balances] [handler] error depositing balance, err: ", err.Error())
 		return c.JSON(http.StatusInternalServerError, map[string]interface{}{
@@ -126,7 +126,7 @@ func (h *BalanceHandler) Withdraw(c echo.Context) error {
 	}
 
 	// Withdraw balance
-	balance, err := h.balanceUsecase.Withdraw(username, withdraw.Amount)
+	balance, err := h.balanceUsecase.Withdraw(username, withdraw.Amount, c)
 	if err != nil {
 		log.Println("[balances] [handler] error withdrawing balance, err: ", err.Error())
 		return c.JSON(http.StatusInternalServerError, map[string]interface{}{
@@ -170,7 +170,7 @@ func (h *BalanceHandler) Transfer(c echo.Context) error {
 	}
 
 	// Transfer balance
-	balance, err := h.balanceUsecase.Transfer(username, transfer.Amount, transfer.Username)
+	balance, err := h.balanceUsecase.Transfer(username, transfer.Amount, transfer.Username, c)
 	if err != nil {
 		log.Println("[balances] [handler] error transferring balance, err: ", err.Error())
 		return c.JSON(http.StatusInternalServerError, map[string]interface{}{

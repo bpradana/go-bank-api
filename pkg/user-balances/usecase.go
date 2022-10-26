@@ -5,20 +5,29 @@ import (
 	"fmt"
 	"log"
 
+	"github.com/labstack/echo/v4"
+
+	"gitlab.com/bpradana/privy-pretest/cmd/util"
 	"gitlab.com/bpradana/privy-pretest/pkg/domain"
 )
 
 // Declare balance usecase struct
 type BalanceUsecase struct {
-	balanceRepository domain.UserBalanceRepository
-	userRepository    domain.UserRepository
+	userRepository               domain.UserRepository
+	userBalanceRepository        domain.UserBalanceRepository
+	userBalanceHistoryRepository domain.UserBalanceHistoryRepository
 }
 
 // Constructor function to create new balance usecase
-func NewUserBalanceUsecase(balanceRepository domain.UserBalanceRepository, userRepository domain.UserRepository) *BalanceUsecase {
+func NewUserBalanceUsecase(
+	userRepository domain.UserRepository,
+	userBalanceRepository domain.UserBalanceRepository,
+	userBalanceHistoryRepository domain.UserBalanceHistoryRepository,
+) *BalanceUsecase {
 	return &BalanceUsecase{
-		balanceRepository: balanceRepository,
-		userRepository:    userRepository,
+		userRepository:               userRepository,
+		userBalanceRepository:        userBalanceRepository,
+		userBalanceHistoryRepository: userBalanceHistoryRepository,
 	}
 }
 
@@ -32,7 +41,7 @@ func (u *BalanceUsecase) CheckBalance(username string) (*domain.UserBalance, err
 	}
 
 	// Get balance by user id
-	balance, err := u.balanceRepository.GetByUserID(user.ID)
+	balance, err := u.userBalanceRepository.GetByUserID(user.ID)
 	if err != nil {
 		log.Println("[balances] [usecase] error getting balance by username, err: ", err.Error())
 		return nil, err
@@ -42,7 +51,7 @@ func (u *BalanceUsecase) CheckBalance(username string) (*domain.UserBalance, err
 }
 
 // Function to deposit balance
-func (u *BalanceUsecase) Deposit(username string, amount int) (*domain.UserBalance, error) {
+func (u *BalanceUsecase) Deposit(username string, amount int, c echo.Context) (*domain.UserBalance, error) {
 	// Get user by username
 	user, err := u.userRepository.GetByUsername(username)
 	if err != nil {
@@ -51,18 +60,45 @@ func (u *BalanceUsecase) Deposit(username string, amount int) (*domain.UserBalan
 	}
 
 	// Get balance by user id
-	balance, err := u.balanceRepository.GetByUserID(user.ID)
+	balance, err := u.userBalanceRepository.GetByUserID(user.ID)
 	if err != nil {
 		log.Println("[balances] [usecase] error getting balance by username, err: ", err.Error())
 		return nil, err
 	}
 
 	// Update balance
+	balanceBefore := balance.Balance
 	balance.Balance += amount
 	balance.BalanceAchieve = fmt.Sprintf("Rp. %d", balance.Balance)
-	balance, err = u.balanceRepository.Update(balance.ID, balance)
+	balance, err = u.userBalanceRepository.Update(balance.ID, balance)
 	if err != nil {
 		log.Println("[balances] [usecase] error updating balance, err: ", err.Error())
+		return nil, err
+	}
+
+	// Add transaction history
+	ip := c.RealIP()
+	userAgent := c.Request().UserAgent()
+	location, err := util.GetIPLocation(ip)
+	if err != nil {
+		log.Println("[balances] [usecase] error getting ip location, err: ", err.Error())
+		return nil, err
+	}
+
+	transaction := &domain.UserBalanceHistory{
+		UserBalanceID: balance.ID,
+		BalanceBefore: balanceBefore,
+		BalanceAfter:  balance.Balance,
+		Activity:      "deposit",
+		Type:          domain.Kredit,
+		Ip:            ip,
+		Location:      location,
+		UserAgent:     userAgent,
+		Author:        user.Username,
+	}
+	_, err = u.userBalanceHistoryRepository.Create(transaction)
+	if err != nil {
+		log.Println("[balances] [usecase] error creating transaction history, err: ", err.Error())
 		return nil, err
 	}
 
@@ -70,7 +106,7 @@ func (u *BalanceUsecase) Deposit(username string, amount int) (*domain.UserBalan
 }
 
 // Function to withdraw balance
-func (u *BalanceUsecase) Withdraw(username string, amount int) (*domain.UserBalance, error) {
+func (u *BalanceUsecase) Withdraw(username string, amount int, c echo.Context) (*domain.UserBalance, error) {
 	// Get user by username
 	user, err := u.userRepository.GetByUsername(username)
 	if err != nil {
@@ -79,7 +115,7 @@ func (u *BalanceUsecase) Withdraw(username string, amount int) (*domain.UserBala
 	}
 
 	// Get balance by user id
-	balance, err := u.balanceRepository.GetByUserID(user.ID)
+	balance, err := u.userBalanceRepository.GetByUserID(user.ID)
 	if err != nil {
 		log.Println("[balances] [usecase] error getting balance by username, err: ", err.Error())
 		return nil, err
@@ -92,11 +128,38 @@ func (u *BalanceUsecase) Withdraw(username string, amount int) (*domain.UserBala
 	}
 
 	// Update balance
+	balanceBefore := balance.Balance
 	balance.Balance -= amount
 	balance.BalanceAchieve = fmt.Sprintf("Rp. %d", balance.Balance)
-	balance, err = u.balanceRepository.Update(balance.ID, balance)
+	balance, err = u.userBalanceRepository.Update(balance.ID, balance)
 	if err != nil {
 		log.Println("[balances] [usecase] error updating balance, err: ", err.Error())
+		return nil, err
+	}
+
+	// Add transaction history
+	ip := c.RealIP()
+	userAgent := c.Request().UserAgent()
+	location, err := util.GetIPLocation(ip)
+	if err != nil {
+		log.Println("[balances] [usecase] error getting ip location, err: ", err.Error())
+		return nil, err
+	}
+
+	transaction := &domain.UserBalanceHistory{
+		UserBalanceID: balance.ID,
+		BalanceBefore: balanceBefore,
+		BalanceAfter:  balance.Balance,
+		Activity:      "withdraw",
+		Type:          domain.Debit,
+		Ip:            ip,
+		Location:      location,
+		UserAgent:     userAgent,
+		Author:        user.Username,
+	}
+	_, err = u.userBalanceHistoryRepository.Create(transaction)
+	if err != nil {
+		log.Println("[balances] [usecase] error creating transaction history, err: ", err.Error())
 		return nil, err
 	}
 
@@ -104,7 +167,7 @@ func (u *BalanceUsecase) Withdraw(username string, amount int) (*domain.UserBala
 }
 
 // Function to transfer balance
-func (u *BalanceUsecase) Transfer(username string, amount int, toUsername string) (*domain.UserBalance, error) {
+func (u *BalanceUsecase) Transfer(username string, amount int, toUsername string, c echo.Context) (*domain.UserBalance, error) {
 	// Get user by username
 	user, err := u.userRepository.GetByUsername(username)
 	if err != nil {
@@ -113,7 +176,7 @@ func (u *BalanceUsecase) Transfer(username string, amount int, toUsername string
 	}
 
 	// Get balance by user id
-	balance, err := u.balanceRepository.GetByUserID(user.ID)
+	balance, err := u.userBalanceRepository.GetByUserID(user.ID)
 	if err != nil {
 		log.Println("[balances] [usecase] error getting balance by username, err: ", err.Error())
 		return nil, err
@@ -133,27 +196,73 @@ func (u *BalanceUsecase) Transfer(username string, amount int, toUsername string
 	}
 
 	// Get balance by user id
-	toBalance, err := u.balanceRepository.GetByUserID(toUser.ID)
+	toBalance, err := u.userBalanceRepository.GetByUserID(toUser.ID)
 	if err != nil {
 		log.Println("[balances] [usecase] error getting balance by username, err: ", err.Error())
 		return nil, err
 	}
 
 	// Update balance
+	balanceBefore := balance.Balance
 	balance.Balance -= amount
 	balance.BalanceAchieve = fmt.Sprintf("Rp. %d", balance.Balance)
-	balance, err = u.balanceRepository.Update(balance.ID, balance)
+	balance, err = u.userBalanceRepository.Update(balance.ID, balance)
 	if err != nil {
 		log.Println("[balances] [usecase] error updating balance, err: ", err.Error())
 		return nil, err
 	}
 
+	// Add transaction history
+	ip := c.RealIP()
+	userAgent := c.Request().UserAgent()
+	location, err := util.GetIPLocation(ip)
+	if err != nil {
+		log.Println("[balances] [usecase] error getting ip location, err: ", err.Error())
+		return nil, err
+	}
+
+	transaction := &domain.UserBalanceHistory{
+		UserBalanceID: balance.ID,
+		BalanceBefore: balanceBefore,
+		BalanceAfter:  balance.Balance,
+		Activity:      "transfer",
+		Type:          domain.Kredit,
+		Ip:            ip,
+		Location:      location,
+		UserAgent:     userAgent,
+		Author:        user.Username,
+	}
+	_, err = u.userBalanceHistoryRepository.Create(transaction)
+	if err != nil {
+		log.Println("[balances] [usecase] error creating transaction history, err: ", err.Error())
+		return nil, err
+	}
+
 	// Update balance
+	toBalanceBefore := toBalance.Balance
 	toBalance.Balance += amount
 	toBalance.BalanceAchieve = fmt.Sprintf("Rp. %d", toBalance.Balance)
-	toBalance, err = u.balanceRepository.Update(toBalance.ID, toBalance)
+	toBalance, err = u.userBalanceRepository.Update(toBalance.ID, toBalance)
 	if err != nil {
 		log.Println("[balances] [usecase] error updating balance, err: ", err.Error())
+		return nil, err
+	}
+
+	// Add transaction history
+	toTransaction := &domain.UserBalanceHistory{
+		UserBalanceID: toBalance.ID,
+		BalanceBefore: toBalanceBefore,
+		BalanceAfter:  toBalance.Balance,
+		Activity:      "transfer",
+		Type:          domain.Debit,
+		Ip:            ip,
+		Location:      location,
+		UserAgent:     userAgent,
+		Author:        user.Username,
+	}
+	_, err = u.userBalanceHistoryRepository.Create(toTransaction)
+	if err != nil {
+		log.Println("[balances] [usecase] error creating transaction history, err: ", err.Error())
 		return nil, err
 	}
 
