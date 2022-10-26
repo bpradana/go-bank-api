@@ -34,3 +34,14 @@ func (r *UserBalanceHistoryRepository) GetByBalanceID(id uint) (*[]domain.UserBa
 
 	return &histories, nil
 }
+
+// Function to create new user balance history in database
+func (r *UserBalanceHistoryRepository) Create(userBalanceHistory *domain.UserBalanceHistory) (*domain.UserBalanceHistory, error) {
+	err := r.db.Create(userBalanceHistory).Error
+	if err != nil {
+		log.Println("[balances] [repository] error creating new balance history, err: ", err.Error())
+		return nil, err
+	}
+
+	return userBalanceHistory, nil
+}
