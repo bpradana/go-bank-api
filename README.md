@@ -1,4 +1,6 @@
 # PrivyID Backend Pretest
+Bintang Pradana Erlangga Putra
+bintangpradana02@gmail.com
 
 ## Test Description
 1. Create a web service with RESTful API type with the database schema listed above
@@ -28,22 +30,28 @@
 ├── cmd
 │   ├── app
 │   │   └── server.go
+│   ├── auth
+│   │   └── authentication.go
 │   ├── db
 │   │   └── db.go
+│   ├── util
+│   │   └── iplocation.go
 └── pkg
     ├── domain
     │   ├── user.go
-    │   ├── user_balance.go
-    │   └── user_balance_history.go
-    ├── user
+    │   ├── user-balance.go
+    │   └── user-balance-history.go
+    ├── users
     │   ├── handler.go
     │   ├── repository.go
+    │   ├── schema.go
     │   └── usecase.go
-    ├── user_balance
+    ├── user-balances
     │   ├── handler.go
     │   ├── repository.go
+    │   ├── schema.go
     │   └── usecase.go
-    └── user_balance_history
+    └── user-balance-histories
         ├── handler.go
         ├── repository.go
         └── usecase.go
@@ -56,6 +64,8 @@
 ### _cmd_ folder contains the following:
 + _app_ - holds the main application
 + _db_ - holds the database connection
++ _auth_ - holds the authentication and authorization
++ _util_ - holds the utility functions
 
 ### _pkg_ folder contains the following:
 + _domain_ - holds the domain models
@@ -64,10 +74,22 @@
 + _user_balance_history_ - holds the user balance history business logic
 
 
+## Architecture
+### Domain Driven Design
+In this test I decided to use Domain Driven Design (DDD) as the architecture. The business logic is separated from the infrastructure and frameworks. The result is a flexible and loosely coupled system that can scale with changing requirements, thus making it easier to maintain and extend.
+The DDD architecture is divided into 4 layers:
++ Domain Layer
++ Repository Layer
++ Use Case Layer
++ Handler Layer
+
+Each layer has its own responsibility and is independent of the other layers. The domain layer is the core of the application and contains the blueprint of its business logic. The repository layer is responsible for the data access and persistence. The use case layer is responsible for the business logic. The handler layer is responsible for the HTTP request and response.
+
 ## Running the project
-### Using Docker
+### Using Docker (Recommended)
 ```sh
-$ docker compose build && docker compose up
+$ docker compose build
+$ docker compose up
 ```
 ### Bare Metal
 ```sh
