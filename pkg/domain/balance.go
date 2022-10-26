@@ -18,6 +18,7 @@ type BalanceUsecase interface {
 	CheckBalance(username string) (*Balance, error)
 	Deposit(username string, amount int) (*Balance, error)
 	Withdraw(username string, amount int) (*Balance, error)
+	Transfer(username string, amount int, toUsername string) (*Balance, error)
 }
 
 // BalanceRepository is a interface that represent balance repository
