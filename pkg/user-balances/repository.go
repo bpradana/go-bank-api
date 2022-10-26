@@ -39,7 +39,7 @@ func (r *BalanceRepository) GetByUserID(id uint) (*domain.UserBalance, error) {
 
 	err := r.db.Where("user_id = ?", id).First(&balance).Error
 	if err != nil {
-		log.Println("[balances] [repository] error getting balance by user id, err: ", err.Error())
+		log.Println("[balances] [repository] [GetByUserID] error getting balance by user id, err: ", err.Error())
 		return nil, err
 	}
 
@@ -52,13 +52,13 @@ func (r *BalanceRepository) Update(id uint, balance *domain.UserBalance) (*domai
 
 	err := r.db.Where("id = ?", id).First(&oldBalance).Error
 	if err != nil {
-		log.Println("[balances] [repository] error getting balance by id, err: ", err.Error())
+		log.Println("[balances] [repository] [Update] error getting balance by id, err: ", err.Error())
 		return nil, err
 	}
 
 	err = r.db.Model(&oldBalance).Updates(balance).Error
 	if err != nil {
-		log.Println("[balances] [repository] error updating balance, err: ", err.Error())
+		log.Println("[balances] [repository] [Update] error updating balance, err: ", err.Error())
 		return nil, err
 	}
 

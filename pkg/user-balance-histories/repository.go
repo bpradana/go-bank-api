@@ -28,7 +28,7 @@ func (r *UserBalanceHistoryRepository) GetByBalanceID(id uint) (*[]domain.UserBa
 
 	err := r.db.Where("user_balance_id = ?", id).Find(&histories).Error
 	if err != nil {
-		log.Println("[balances] [repository] error getting balance history by balance id, err: ", err.Error())
+		log.Println("[balance history] [repository] [GetByBalanceID] error getting balance history by balance id, err: ", err.Error())
 		return nil, err
 	}
 
@@ -39,7 +39,7 @@ func (r *UserBalanceHistoryRepository) GetByBalanceID(id uint) (*[]domain.UserBa
 func (r *UserBalanceHistoryRepository) Create(userBalanceHistory *domain.UserBalanceHistory) (*domain.UserBalanceHistory, error) {
 	err := r.db.Create(userBalanceHistory).Error
 	if err != nil {
-		log.Println("[balances] [repository] error creating new balance history, err: ", err.Error())
+		log.Println("[balance history] [repository] [Create] error creating new balance history, err: ", err.Error())
 		return nil, err
 	}
 
