@@ -21,5 +21,6 @@ type UserUsecase interface {
 // UserRepository is a interface that represent user repository
 type UserRepository interface {
 	GetByEmail(email string) (*User, error)
+	GetByUsername(username string) (*User, error)
 	Create(u *User) (*User, error)
 }

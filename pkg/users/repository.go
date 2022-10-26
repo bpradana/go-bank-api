@@ -45,3 +45,16 @@ func (r *UserRepository) GetByEmail(email string) (*domain.User, error) {
 
 	return &user, nil
 }
+
+// Function to get user by username
+func (r *UserRepository) GetByUsername(username string) (*domain.User, error) {
+	var user domain.User
+
+	err := r.db.Where("username = ?", username).First(&user).Error
+	if err != nil {
+		log.Println("[users] [repository] error getting user by username, err: ", err.Error())
+		return nil, err
+	}
+
+	return &user, nil
+}

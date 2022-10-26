@@ -32,3 +32,16 @@ func (r *BalanceRepository) Create(balance *domain.Balance) (*domain.Balance, er
 
 	return balance, nil
 }
+
+// Function to get balance by user id
+func (r *BalanceRepository) GetByUserID(id uint) (*domain.Balance, error) {
+	var balance domain.Balance
+
+	err := r.db.Where("user_id = ?", id).First(&balance).Error
+	if err != nil {
+		log.Println("[balances] [repository] error getting balance by user id, err: ", err.Error())
+		return nil, err
+	}
+
+	return &balance, nil
+}
