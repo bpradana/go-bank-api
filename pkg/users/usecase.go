@@ -28,7 +28,7 @@ func (u *UserUsecase) Register(user *domain.User) (*domain.User, error) {
 	// Hash password
 	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(user.Password), bcrypt.DefaultCost)
 	if err != nil {
-		log.Println("[users] [usecase] error hashing password, err: ", err.Error())
+		log.Println("[users] [usecase] [Register] error hashing password, err: ", err.Error())
 		return nil, err
 	}
 	user.Password = string(hashedPassword)
@@ -36,7 +36,7 @@ func (u *UserUsecase) Register(user *domain.User) (*domain.User, error) {
 	// Create user
 	registeredUser, err := u.userRepository.Create(user)
 	if err != nil {
-		log.Println("[users] [usecase] error creating user, err: ", err.Error())
+		log.Println("[users] [usecase] [Register] error creating user, err: ", err.Error())
 		return nil, err
 	}
 
@@ -47,6 +47,10 @@ func (u *UserUsecase) Register(user *domain.User) (*domain.User, error) {
 		BalanceAchieve: "Rp 0",
 	}
 	_, err = u.balanceRepository.Create(balanceToCreate)
+	if err != nil {
+		log.Println("[users] [usecase] [Register] error creating balance, err: ", err.Error())
+		return nil, err
+	}
 
 	return registeredUser, nil
 }
@@ -56,14 +60,14 @@ func (u *UserUsecase) Login(user *domain.User) (*domain.User, string, error) {
 	// Get user by email
 	userByEmail, err := u.userRepository.GetByEmail(user.Email)
 	if err != nil {
-		log.Println("[users] [usecase] error getting user by email, err: ", err.Error())
+		log.Println("[users] [usecase] [Login] error getting user by email, err: ", err.Error())
 		return nil, "", err
 	}
 
 	// Compare password
 	err = bcrypt.CompareHashAndPassword([]byte(userByEmail.Password), []byte(user.Password))
 	if err != nil {
-		log.Println("[users] [usecase] error comparing password, err: ", err.Error())
+		log.Println("[users] [usecase] [Login] error comparing password, err: ", err.Error())
 		return nil, "", err
 	}
 

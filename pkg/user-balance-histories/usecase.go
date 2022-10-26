@@ -31,21 +31,21 @@ func (u *UserBalanceHistoryUsecase) Check(username string) (*[]domain.UserBalanc
 	// Get user by username
 	user, err := u.userRepository.GetByUsername(username)
 	if err != nil {
-		log.Println("[balances] [usecase] error getting user by username, err: ", err.Error())
+		log.Println("[balance history] [usecase] [Check] error getting user by username, err: ", err.Error())
 		return nil, err
 	}
 
 	// Get balance by user id
 	balance, err := u.userBalanceRepository.GetByUserID(user.ID)
 	if err != nil {
-		log.Println("[balances] [usecase] error getting balance by username, err: ", err.Error())
+		log.Println("[balance history] [usecase] [GetByUserID] error getting balance by username, err: ", err.Error())
 		return nil, err
 	}
 
 	// Get balance history by balance id
 	histories, err := u.userBalanceHistoryRepository.GetByBalanceID(balance.ID)
 	if err != nil {
-		log.Println("[balances] [usecase] error getting balance history by balance id, err: ", err.Error())
+		log.Println("[balance history] [usecase] [GetByBalanceID] error getting balance history by balance id, err: ", err.Error())
 		return nil, err
 	}
 

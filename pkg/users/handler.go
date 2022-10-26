@@ -33,7 +33,7 @@ func (h *UserHandler) Register(c echo.Context) error {
 
 	// Bind request body to user struct
 	if err := c.Bind(user); err != nil {
-		log.Println("[users] [handler] error binding request body, err: ", err.Error())
+		log.Println("[users] [handler] [Register] error binding request body, err: ", err.Error())
 		return c.JSON(http.StatusBadRequest, map[string]interface{}{
 			"message": "Invalid request body",
 			"error":   err.Error(),
@@ -43,7 +43,7 @@ func (h *UserHandler) Register(c echo.Context) error {
 	// Validate user struct
 	validate := validator.New()
 	if err := validate.Struct(user); err != nil {
-		log.Println("[users] [handler] error validating request body, err: ", err.Error())
+		log.Println("[users] [handler] [Register] error validating request body, err: ", err.Error())
 		return c.JSON(http.StatusBadRequest, map[string]interface{}{
 			"message": "Invalid request body",
 			"error":   err.Error(),
@@ -60,7 +60,7 @@ func (h *UserHandler) Register(c echo.Context) error {
 	// Create user
 	registeredUser, err := h.userUsecase.Register(userToRegister)
 	if err != nil {
-		log.Println("[users] [handler] error creating user, err: ", err.Error())
+		log.Println("[users] [handler] [Register] error creating user, err: ", err.Error())
 		return c.JSON(http.StatusInternalServerError, map[string]interface{}{
 			"message": "Internal server error",
 			"error":   err.Error(),
@@ -81,7 +81,7 @@ func (h *UserHandler) Login(c echo.Context) error {
 
 	// Bind request body to user struct
 	if err := c.Bind(user); err != nil {
-		log.Println("[users] [handler] error binding request body, err: ", err.Error())
+		log.Println("[users] [handler] [Login] error binding request body, err: ", err.Error())
 		return c.JSON(http.StatusBadRequest, map[string]interface{}{
 			"message": "Invalid request body",
 			"error":   err.Error(),
@@ -91,7 +91,7 @@ func (h *UserHandler) Login(c echo.Context) error {
 	// Validate user struct
 	validate := validator.New()
 	if err := validate.Struct(user); err != nil {
-		log.Println("[users] [handler] error validating request body, err: ", err.Error())
+		log.Println("[users] [handler] [Login] error validating request body, err: ", err.Error())
 		return c.JSON(http.StatusBadRequest, map[string]interface{}{
 			"message": "Invalid request body",
 			"error":   err.Error(),
@@ -107,7 +107,7 @@ func (h *UserHandler) Login(c echo.Context) error {
 	// Login user
 	loggedInUser, token, err := h.userUsecase.Login(userToLogin)
 	if err != nil {
-		log.Println("[users] [handler] error logging in user, err: ", err.Error())
+		log.Println("[users] [handler] [Login] error logging in user, err: ", err.Error())
 		return c.JSON(http.StatusInternalServerError, map[string]interface{}{
 			"message": "Internal server error",
 			"error":   err.Error(),
