@@ -7,10 +7,11 @@ import (
 // UserBalance is a struct that represent user balance table
 type UserBalance struct {
 	gorm.Model
-	UserID         uint   `json:"user_id" gorm:"unique"`
-	Balance        int    `json:"balance"`
-	BalanceAchieve string `json:"balance_achieve"`
-	User           User   `json:"-"`
+	UserID               uint                 `json:"user_id" gorm:"unique"`
+	Balance              int                  `json:"balance"`
+	BalanceAchieve       string               `json:"balance_achieve"`
+	User                 User                 `json:"-"`
+	UserBalanceHistories []UserBalanceHistory `json:"-"`
 }
 
 // UserBalanceUseCase is a interface that represent user balance usecase
