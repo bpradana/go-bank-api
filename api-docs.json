@@ -1,0 +1,974 @@
+{
+	"info": {
+		"_postman_id": "69f6f97b-d09b-4609-99f3-7e66fcc97a7a",
+		"name": "privy pretest",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "11397803"
+	},
+	"item": [
+		{
+			"name": "users",
+			"item": [
+				{
+					"name": "Register",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\": \"bintang\",\n    \"email\": \"bintang@mail.com\",\n    \"password\": \"password\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/api/v1/users/register",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"users",
+								"register"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "400 Bad Request",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"username\": \"bintang\",\n    \"email\": \"bintang@mail.com\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/api/v1/users/register",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"users",
+										"register"
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=UTF-8"
+								},
+								{
+									"key": "Date",
+									"value": "Tue, 25 Oct 2022 14:57:59 GMT"
+								},
+								{
+									"key": "Content-Length",
+									"value": "147"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"error\": \"Key: 'SchemaRegisterUser.Password' Error:Field validation for 'Password' failed on the 'required' tag\",\n    \"message\": \"Invalid request body\"\n}"
+						},
+						{
+							"name": "500 Duplicate",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"username\": \"bintang\",\n    \"email\": \"bintang@mail.com\",\n    \"password\": \"password\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/api/v1/users/register",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"users",
+										"register"
+									]
+								}
+							},
+							"status": "Internal Server Error",
+							"code": 500,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=UTF-8"
+								},
+								{
+									"key": "Date",
+									"value": "Tue, 25 Oct 2022 15:49:18 GMT"
+								},
+								{
+									"key": "Content-Length",
+									"value": "140"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"error\": \"ERROR: duplicate key value violates unique constraint \\\"users_username_key\\\" (SQLSTATE 23505)\",\n    \"message\": \"Internal server error\"\n}"
+						},
+						{
+							"name": "201 Created",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"username\": \"bintang\",\n    \"email\": \"bintang@mail.com\",\n    \"password\": \"password\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/api/v1/users/register",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"users",
+										"register"
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=UTF-8"
+								},
+								{
+									"key": "Date",
+									"value": "Tue, 25 Oct 2022 16:40:54 GMT"
+								},
+								{
+									"key": "Content-Length",
+									"value": "272"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"data\": {\n        \"ID\": 1,\n        \"CreatedAt\": \"2022-10-25T16:40:54.151159012Z\",\n        \"UpdatedAt\": \"2022-10-25T16:40:54.151159012Z\",\n        \"DeletedAt\": null,\n        \"username\": \"bintang\",\n        \"email\": \"bintang@mail.com\",\n        \"password\": \"$2a$10$HIezuXWbQ51nSoieU89S0OA.uGffhdJMAfCerUg2KbXBAFvV.Vg.S\"\n    },\n    \"message\": \"User created\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"bintang@mail.com\",\n    \"password\": \"password\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/api/v1/users/login",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"users",
+								"login"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "400 Bad Request",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"email\": \"bintang@mail.com\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/api/v1/users/login",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"users",
+										"login"
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=UTF-8"
+								},
+								{
+									"key": "Date",
+									"value": "Tue, 25 Oct 2022 16:01:17 GMT"
+								},
+								{
+									"key": "Content-Length",
+									"value": "144"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"error\": \"Key: 'SchemaLoginUser.Password' Error:Field validation for 'Password' failed on the 'required' tag\",\n    \"message\": \"Invalid request body\"\n}"
+						},
+						{
+							"name": "500 Wrong Password",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"email\": \"bintang@mail.com\",\n    \"password\": \"passwords\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/api/v1/users/login",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"users",
+										"login"
+									]
+								}
+							},
+							"status": "Internal Server Error",
+							"code": 500,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=UTF-8"
+								},
+								{
+									"key": "Date",
+									"value": "Tue, 25 Oct 2022 16:00:02 GMT"
+								},
+								{
+									"key": "Content-Length",
+									"value": "114"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"error\": \"crypto/bcrypt: hashedPassword is not the hash of the given password\",\n    \"message\": \"Internal server error\"\n}"
+						},
+						{
+							"name": "200 OK",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"email\": \"bintang@mail.com\",\n    \"password\": \"password\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/api/v1/users/login",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"users",
+										"login"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=UTF-8"
+								},
+								{
+									"key": "Date",
+									"value": "Tue, 25 Oct 2022 16:41:26 GMT"
+								},
+								{
+									"key": "Content-Length",
+									"value": "435"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"data\": {\n        \"ID\": 1,\n        \"CreatedAt\": \"2022-10-25T16:40:54.151159Z\",\n        \"UpdatedAt\": \"2022-10-25T16:40:54.151159Z\",\n        \"DeletedAt\": null,\n        \"username\": \"bintang\",\n        \"email\": \"bintang@mail.com\",\n        \"password\": \"$2a$10$HIezuXWbQ51nSoieU89S0OA.uGffhdJMAfCerUg2KbXBAFvV.Vg.S\"\n    },\n    \"message\": \"User logged in\",\n    \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwidXNlcm5hbWUiOiJiaW50YW5nIiwiZW1haWwiOiJiaW50YW5nQG1haWwuY29tIn0.kNi7hEOQbw3d5Drnri1mUFnTGBsykCkzRBeywGan4e0\"\n}"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "balances",
+			"item": [
+				{
+					"name": "check",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwidXNlcm5hbWUiOiJiaW50YW5nIiwiZW1haWwiOiJiaW50YW5nQG1haWwuY29tIn0.kNi7hEOQbw3d5Drnri1mUFnTGBsykCkzRBeywGan4e0",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/api/v1/balances/check",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"balances",
+								"check"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "200 OK",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/api/v1/balances/check",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"balances",
+										"check"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=UTF-8"
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 26 Oct 2022 08:40:38 GMT"
+								},
+								{
+									"key": "Content-Length",
+									"value": "187"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"balance\": {\n        \"ID\": 1,\n        \"CreatedAt\": \"2022-10-26T08:40:31.6546Z\",\n        \"UpdatedAt\": \"2022-10-26T08:40:31.6546Z\",\n        \"DeletedAt\": null,\n        \"user_id\": 1,\n        \"balance\": 0,\n        \"balance_achieve\": \"Rp 0\"\n    },\n    \"message\": \"Success\"\n}"
+						}
+					]
+				},
+				{
+					"name": "deposit",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwidXNlcm5hbWUiOiJiaW50YW5nIiwiZW1haWwiOiJiaW50YW5nQG1haWwuY29tIn0.kNi7hEOQbw3d5Drnri1mUFnTGBsykCkzRBeywGan4e0",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"amount\": 1000000\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/api/v1/balances/deposit",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"balances",
+								"deposit"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "200 OK",
+							"originalRequest": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"amount\": 1000000\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/api/v1/balances/deposit",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"balances",
+										"deposit"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=UTF-8"
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 26 Oct 2022 08:48:54 GMT"
+								},
+								{
+									"key": "Content-Length",
+									"value": "214"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"balance\": {\n        \"ID\": 1,\n        \"CreatedAt\": \"2022-10-26T08:48:49.953984Z\",\n        \"UpdatedAt\": \"2022-10-26T08:48:49.953984Z\",\n        \"DeletedAt\": null,\n        \"user_id\": 1,\n        \"balance\": 1000000,\n        \"balance_achieve\": \"Rp. 1000000\"\n    },\n    \"message\": \"Balance deposited\"\n}"
+						},
+						{
+							"name": "400 Bad Request",
+							"originalRequest": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"amount\": 0\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/api/v1/balances/deposit",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"balances",
+										"deposit"
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=UTF-8"
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 26 Oct 2022 08:49:28 GMT"
+								},
+								{
+									"key": "Content-Length",
+									"value": "138"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"error\": \"Key: 'SchemaDeposit.Amount' Error:Field validation for 'Amount' failed on the 'required' tag\",\n    \"message\": \"Invalid request body\"\n}"
+						}
+					]
+				},
+				{
+					"name": "withdraw",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwidXNlcm5hbWUiOiJiaW50YW5nIiwiZW1haWwiOiJiaW50YW5nQG1haWwuY29tIn0.kNi7hEOQbw3d5Drnri1mUFnTGBsykCkzRBeywGan4e0",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"amount\": 300000\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/api/v1/balances/withdraw",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"balances",
+								"withdraw"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "200 OK",
+							"originalRequest": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"amount\": 500000\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/api/v1/balances/withdraw",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"balances",
+										"withdraw"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=UTF-8"
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 26 Oct 2022 09:05:38 GMT"
+								},
+								{
+									"key": "Content-Length",
+									"value": "212"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"balance\": {\n        \"ID\": 1,\n        \"CreatedAt\": \"2022-10-26T09:04:50.641722Z\",\n        \"UpdatedAt\": \"2022-10-26T09:05:30.645931Z\",\n        \"DeletedAt\": null,\n        \"user_id\": 1,\n        \"balance\": 500000,\n        \"balance_achieve\": \"Rp. 500000\"\n    },\n    \"message\": \"Balance withdrawn\"\n}"
+						},
+						{
+							"name": "400 Bad Request",
+							"originalRequest": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"amount\": 0\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/api/v1/balances/withdraw",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"balances",
+										"withdraw"
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=UTF-8"
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 26 Oct 2022 08:49:28 GMT"
+								},
+								{
+									"key": "Content-Length",
+									"value": "138"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"error\": \"Key: 'SchemaDeposit.Amount' Error:Field validation for 'Amount' failed on the 'required' tag\",\n    \"message\": \"Invalid request body\"\n}"
+						},
+						{
+							"name": "500 Balance Not Enough",
+							"originalRequest": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"amount\": 1000000\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/api/v1/balances/withdraw",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"balances",
+										"withdraw"
+									]
+								}
+							},
+							"status": "Internal Server Error",
+							"code": 500,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=UTF-8"
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 26 Oct 2022 09:05:11 GMT"
+								},
+								{
+									"key": "Content-Length",
+									"value": "68"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"error\": \"balance is not enough\",\n    \"message\": \"Internal server error\"\n}"
+						}
+					]
+				},
+				{
+					"name": "transfer",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwidXNlcm5hbWUiOiJiaW50YW5nIiwiZW1haWwiOiJiaW50YW5nQG1haWwuY29tIn0.kNi7hEOQbw3d5Drnri1mUFnTGBsykCkzRBeywGan4e0",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"amount\": 300000,\n    \"username\": \"bintanga\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/api/v1/balances/transfer",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"balances",
+								"transfer"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "200 OK",
+							"originalRequest": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"amount\": 500000,\n    \"username\": \"bintanga\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/api/v1/balances/transfer",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"balances",
+										"transfer"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=UTF-8"
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 26 Oct 2022 09:17:36 GMT"
+								},
+								{
+									"key": "Content-Length",
+									"value": "214"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"balance\": {\n        \"ID\": 1,\n        \"CreatedAt\": \"2022-10-26T09:15:57.445146Z\",\n        \"UpdatedAt\": \"2022-10-26T09:16:17.173616Z\",\n        \"DeletedAt\": null,\n        \"user_id\": 1,\n        \"balance\": 500000,\n        \"balance_achieve\": \"Rp. 500000\"\n    },\n    \"message\": \"Balance transferred\"\n}"
+						},
+						{
+							"name": "500 Balance Not Enoug",
+							"originalRequest": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"amount\": 2000000,\n    \"username\": \"bintanga\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/api/v1/balances/transfer",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"balances",
+										"transfer"
+									]
+								}
+							},
+							"status": "Internal Server Error",
+							"code": 500,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=UTF-8"
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 26 Oct 2022 09:17:18 GMT"
+								},
+								{
+									"key": "Content-Length",
+									"value": "68"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"error\": \"balance is not enough\",\n    \"message\": \"Internal server error\"\n}"
+						},
+						{
+							"name": "400 Bad Request",
+							"originalRequest": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"amount\": -500000,\n    \"username\": \"bintanga\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/api/v1/balances/transfer",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"balances",
+										"transfer"
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=UTF-8"
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 26 Oct 2022 09:17:59 GMT"
+								},
+								{
+									"key": "Content-Length",
+									"value": "134"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"error\": \"Key: 'SchemaTransfer.Amount' Error:Field validation for 'Amount' failed on the 'min' tag\",\n    \"message\": \"Invalid request body\"\n}"
+						}
+					]
+				},
+				{
+					"name": "histories",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": [
+						{
+							"name": "200 OK",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/api/v1/balances/histories",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"balances",
+										"histories"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=UTF-8"
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 26 Oct 2022 17:12:42 GMT"
+								},
+								{
+									"key": "Content-Length",
+									"value": "964"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"histories\": [\n        {\n            \"ID\": 1,\n            \"CreatedAt\": \"2022-10-26T17:12:34.610477Z\",\n            \"UpdatedAt\": \"2022-10-26T17:12:34.610477Z\",\n            \"DeletedAt\": null,\n            \"user_balance_id\": 1,\n            \"balance_before\": 0,\n            \"balance_after\": 1000000,\n            \"activity\": \"deposit\",\n            \"type\": \"kredit\",\n            \"ip\": \"192.168.112.1\",\n            \"location\": \"local\",\n            \"user_agent\": \"PostmanRuntime/7.29.2\",\n            \"author\": \"bintang\"\n        },\n        {\n            \"ID\": 2,\n            \"CreatedAt\": \"2022-10-26T17:12:36.526814Z\",\n            \"UpdatedAt\": \"2022-10-26T17:12:36.526814Z\",\n            \"DeletedAt\": null,\n            \"user_balance_id\": 1,\n            \"balance_before\": 1000000,\n            \"balance_after\": 700000,\n            \"activity\": \"withdraw\",\n            \"type\": \"debit\",\n            \"ip\": \"192.168.112.1\",\n            \"location\": \"local\",\n            \"user_agent\": \"PostmanRuntime/7.29.2\",\n            \"author\": \"bintang\"\n        },\n        {\n            \"ID\": 3,\n            \"CreatedAt\": \"2022-10-26T17:12:38.545622Z\",\n            \"UpdatedAt\": \"2022-10-26T17:12:38.545622Z\",\n            \"DeletedAt\": null,\n            \"user_balance_id\": 1,\n            \"balance_before\": 700000,\n            \"balance_after\": 400000,\n            \"activity\": \"transfer\",\n            \"type\": \"kredit\",\n            \"ip\": \"192.168.112.1\",\n            \"location\": \"local\",\n            \"user_agent\": \"PostmanRuntime/7.29.2\",\n            \"author\": \"bintang\"\n        }\n    ],\n    \"message\": \"Success\"\n}"
+						}
+					]
+				}
+			]
+		}
+	]
+}
