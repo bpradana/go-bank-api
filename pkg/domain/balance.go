@@ -16,10 +16,12 @@ type Balance struct {
 // BalanceUseCase is a interface that represent balance usecase
 type BalanceUsecase interface {
 	CheckBalance(username string) (*Balance, error)
+	Deposit(username string, amount int) (*Balance, error)
 }
 
 // BalanceRepository is a interface that represent balance repository
 type BalanceRepository interface {
-	Create(b *Balance) (*Balance, error)
 	GetByUserID(id uint) (*Balance, error)
+	Create(b *Balance) (*Balance, error)
+	Update(id uint, b *Balance) (*Balance, error)
 }
