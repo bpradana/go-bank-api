@@ -9,6 +9,7 @@ import (
 	"github.com/labstack/echo/v4/middleware"
 
 	"gitlab.com/bpradana/privy-pretest/cmd/db"
+	"gitlab.com/bpradana/privy-pretest/pkg/balances"
 	"gitlab.com/bpradana/privy-pretest/pkg/users"
 )
 
@@ -21,9 +22,8 @@ func main() {
 
 	// Connect to database
 	db, err := db.ConnectDB()
-	_ = db // don't forget to remove this line
 	if err != nil {
-		log.Println("[app] [server] error connecting to database, err: ", err.Error())
+		log.Fatal("[app] [server] error connecting to database, err: ", err.Error())
 	}
 
 	// Create echo instance
@@ -35,7 +35,9 @@ func main() {
 
 	// Routes
 	userRepository := users.NewUserRepository(db)
-	userUsecase := users.NewUserUsecase(userRepository)
+	balanceRepository := balances.NewBalanceRepository(db)
+
+	userUsecase := users.NewUserUsecase(userRepository, balanceRepository)
 
 	usersGroup := e.Group("/api/v1/users")
 	users.NewUserHandler(usersGroup, userUsecase)
