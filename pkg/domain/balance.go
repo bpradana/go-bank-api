@@ -10,15 +10,16 @@ type Balance struct {
 	UserID         uint   `json:"user_id" gorm:"unique"`
 	Balance        int    `json:"balance"`
 	BalanceAchieve string `json:"balance_achieve"`
-	User           User
+	User           User   `json:"-"`
 }
 
 // BalanceUseCase is a interface that represent balance usecase
 type BalanceUsecase interface {
-	GetBalance(b *Balance) (*Balance, error)
+	CheckBalance(username string) (*Balance, error)
 }
 
 // BalanceRepository is a interface that represent balance repository
 type BalanceRepository interface {
 	Create(b *Balance) (*Balance, error)
+	GetByUserID(id uint) (*Balance, error)
 }
