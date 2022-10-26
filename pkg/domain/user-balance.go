@@ -2,6 +2,8 @@ package domain
 
 import (
 	"gorm.io/gorm"
+
+	"github.com/labstack/echo/v4"
 )
 
 // UserBalance is a struct that represent user balance table
@@ -17,9 +19,9 @@ type UserBalance struct {
 // UserBalanceUseCase is a interface that represent user balance usecase
 type UserBalanceUsecase interface {
 	CheckBalance(username string) (*UserBalance, error)
-	Deposit(username string, amount int) (*UserBalance, error)
-	Withdraw(username string, amount int) (*UserBalance, error)
-	Transfer(username string, amount int, toUsername string) (*UserBalance, error)
+	Deposit(username string, amount int, c echo.Context) (*UserBalance, error)
+	Withdraw(username string, amount int, c echo.Context) (*UserBalance, error)
+	Transfer(username string, amount int, toUsername string, c echo.Context) (*UserBalance, error)
 }
 
 // UserBalanceRepository is a interface that represent user balance repository
