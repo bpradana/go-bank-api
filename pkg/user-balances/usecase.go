@@ -32,7 +32,7 @@ func NewUserBalanceUsecase(
 }
 
 // Function to get balance by username
-func (u *BalanceUsecase) CheckBalance(username string) (*domain.UserBalance, error) {
+func (u *BalanceUsecase) Check(username string) (*domain.UserBalance, error) {
 	// Get user by username
 	user, err := u.userRepository.GetByUsername(username)
 	if err != nil {
