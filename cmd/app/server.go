@@ -48,7 +48,7 @@ func main() {
 	balanceHistoryRepository := userBalanceHistories.NewUserBalanceHistoryRepository(db)
 
 	userUsecase := users.NewUserUsecase(userRepository, balanceRepository)
-	balanceUsecase := userBalances.NewUserBalanceUsecase(balanceRepository, userRepository)
+	balanceUsecase := userBalances.NewUserBalanceUsecase(userRepository, balanceRepository, balanceHistoryRepository)
 	balanceHistoryUsecase := userBalanceHistories.NewUserBalanceHistoryUsecase(userRepository, balanceRepository, balanceHistoryRepository)
 
 	usersGroup := e.Group("/api/v1/users")
