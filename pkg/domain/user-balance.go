@@ -18,7 +18,7 @@ type UserBalance struct {
 
 // UserBalanceUseCase is a interface that represent user balance usecase
 type UserBalanceUsecase interface {
-	CheckBalance(username string) (*UserBalance, error)
+	Check(username string) (*UserBalance, error)
 	Deposit(username string, amount int, c echo.Context) (*UserBalance, error)
 	Withdraw(username string, amount int, c echo.Context) (*UserBalance, error)
 	Transfer(username string, amount int, toUsername string, c echo.Context) (*UserBalance, error)

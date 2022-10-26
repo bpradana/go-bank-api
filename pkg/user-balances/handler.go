@@ -24,21 +24,21 @@ func NewUserBalanceHandler(e *echo.Group, balanceUsecase domain.UserBalanceUseca
 	}
 
 	// Routes
-	e.GET("/check", h.CheckBalance)
+	e.GET("/check", h.Check)
 	e.PATCH("/deposit", h.Deposit)
 	e.PATCH("/withdraw", h.Withdraw)
 	e.PATCH("/transfer", h.Transfer)
 }
 
 // Function to get balance by username
-func (h *BalanceHandler) CheckBalance(c echo.Context) error {
+func (h *BalanceHandler) Check(c echo.Context) error {
 	// Get username from jwt context
 	user := c.Get("user").(*jwt.Token)
 	claims := user.Claims.(*auth.Claims)
 	username := claims.Username
 
 	// Get balance by username
-	balance, err := h.balanceUsecase.CheckBalance(username)
+	balance, err := h.balanceUsecase.Check(username)
 	if err != nil {
 		log.Println("[balances] [handler] error getting balance by username, err: ", err.Error())
 		return c.JSON(http.StatusInternalServerError, map[string]interface{}{
