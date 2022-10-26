@@ -45,3 +45,22 @@ func (r *BalanceRepository) GetByUserID(id uint) (*domain.Balance, error) {
 
 	return &balance, nil
 }
+
+// Function to update balance in database
+func (r *BalanceRepository) Update(id uint, balance *domain.Balance) (*domain.Balance, error) {
+	var oldBalance domain.Balance
+
+	err := r.db.Where("id = ?", id).First(&oldBalance).Error
+	if err != nil {
+		log.Println("[balances] [repository] error getting balance by id, err: ", err.Error())
+		return nil, err
+	}
+
+	err = r.db.Model(&oldBalance).Updates(balance).Error
+	if err != nil {
+		log.Println("[balances] [repository] error updating balance, err: ", err.Error())
+		return nil, err
+	}
+
+	return balance, nil
+}
