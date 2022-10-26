@@ -22,7 +22,8 @@ func NewUserHandler(e *echo.Group, userUsecase domain.UserUsecase) {
 	}
 
 	// Routes
-	e.POST("/users/register", h.Register)
+	e.POST("/register", h.Register)
+	e.POST("/login", h.Login)
 }
 
 // Function to register user
@@ -57,7 +58,7 @@ func (h *UserHandler) Register(c echo.Context) error {
 	}
 
 	// Create user
-	_, err := h.userUsecase.Register(userToRegister)
+	registeredUser, err := h.userUsecase.Register(userToRegister)
 	if err != nil {
 		log.Println("[users] [handler] error creating user, err: ", err.Error())
 		return c.JSON(http.StatusInternalServerError, map[string]interface{}{
@@ -69,5 +70,54 @@ func (h *UserHandler) Register(c echo.Context) error {
 	// Return response
 	return c.JSON(http.StatusCreated, map[string]interface{}{
 		"message": "User created",
+		"data":    registeredUser,
+	})
+}
+
+// Function to login user
+func (h *UserHandler) Login(c echo.Context) error {
+	// Create user struct
+	user := new(SchemaLoginUser)
+
+	// Bind request body to user struct
+	if err := c.Bind(user); err != nil {
+		log.Println("[users] [handler] error binding request body, err: ", err.Error())
+		return c.JSON(http.StatusBadRequest, map[string]interface{}{
+			"message": "Invalid request body",
+			"error":   err.Error(),
+		})
+	}
+
+	// Validate user struct
+	validate := validator.New()
+	if err := validate.Struct(user); err != nil {
+		log.Println("[users] [handler] error validating request body, err: ", err.Error())
+		return c.JSON(http.StatusBadRequest, map[string]interface{}{
+			"message": "Invalid request body",
+			"error":   err.Error(),
+		})
+	}
+
+	// Create user domain
+	userToLogin := &domain.User{
+		Email:    user.Email,
+		Password: user.Password,
+	}
+
+	// Login user
+	loggedInUser, token, err := h.userUsecase.Login(userToLogin)
+	if err != nil {
+		log.Println("[users] [handler] error logging in user, err: ", err.Error())
+		return c.JSON(http.StatusInternalServerError, map[string]interface{}{
+			"message": "Internal server error",
+			"error":   err.Error(),
+		})
+	}
+
+	// Return response
+	return c.JSON(http.StatusOK, map[string]interface{}{
+		"message": "User logged in",
+		"data":    loggedInUser,
+		"token":   token,
 	})
 }

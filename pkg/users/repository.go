@@ -32,3 +32,16 @@ func (r *UserRepository) Create(user *domain.User) (*domain.User, error) {
 
 	return user, nil
 }
+
+// Function to get user by email
+func (r *UserRepository) GetByEmail(email string) (*domain.User, error) {
+	var user domain.User
+
+	err := r.db.Where("email = ?", email).First(&user).Error
+	if err != nil {
+		log.Println("[users] [repository] error getting user by email, err: ", err.Error())
+		return nil, err
+	}
+
+	return &user, nil
+}
