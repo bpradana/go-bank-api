@@ -26,6 +26,7 @@ func NewBalanceHandler(e *echo.Group, balanceUsecase domain.BalanceUsecase) {
 	// Routes
 	e.GET("/check", h.CheckBalance)
 	e.PATCH("/deposit", h.Deposit)
+	e.PATCH("/withdraw", h.Withdraw)
 }
 
 // Function to get balance by username
@@ -60,7 +61,7 @@ func (h *BalanceHandler) Deposit(c echo.Context) error {
 	username := claims.Username
 
 	// Create deposit struct
-	deposit := new(SchemaDeposit)
+	deposit := new(SchemaDepositWithdraw)
 	if err := c.Bind(deposit); err != nil {
 		log.Println("[balances] [handler] error binding request body, err: ", err.Error())
 		return c.JSON(http.StatusBadRequest, map[string]interface{}{
@@ -92,6 +93,50 @@ func (h *BalanceHandler) Deposit(c echo.Context) error {
 	// Return balance
 	return c.JSON(http.StatusOK, map[string]interface{}{
 		"message": "Balance deposited",
+		"balance": balance,
+	})
+}
+
+// Function to withdraw balance
+func (h *BalanceHandler) Withdraw(c echo.Context) error {
+	// Get username from jwt context
+	user := c.Get("user").(*jwt.Token)
+	claims := user.Claims.(*auth.Claims)
+	username := claims.Username
+
+	// Create withdraw struct
+	withdraw := new(SchemaDepositWithdraw)
+	if err := c.Bind(withdraw); err != nil {
+		log.Println("[balances] [handler] error binding request body, err: ", err.Error())
+		return c.JSON(http.StatusBadRequest, map[string]interface{}{
+			"message": "Invalid request body",
+			"error":   err.Error(),
+		})
+	}
+
+	// Validate withdraw struct
+	validate := validator.New()
+	if err := validate.Struct(withdraw); err != nil {
+		log.Println("[balances] [handler] error validating request body, err: ", err.Error())
+		return c.JSON(http.StatusBadRequest, map[string]interface{}{
+			"message": "Invalid request body",
+			"error":   err.Error(),
+		})
+	}
+
+	// Withdraw balance
+	balance, err := h.balanceUsecase.Withdraw(username, withdraw.Amount)
+	if err != nil {
+		log.Println("[balances] [handler] error withdrawing balance, err: ", err.Error())
+		return c.JSON(http.StatusInternalServerError, map[string]interface{}{
+			"message": "Internal server error",
+			"error":   err.Error(),
+		})
+	}
+
+	// Return balance
+	return c.JSON(http.StatusOK, map[string]interface{}{
+		"message": "Balance withdrawn",
 		"balance": balance,
 	})
 }
