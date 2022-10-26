@@ -27,6 +27,7 @@ func NewBalanceHandler(e *echo.Group, balanceUsecase domain.BalanceUsecase) {
 	e.GET("/check", h.CheckBalance)
 	e.PATCH("/deposit", h.Deposit)
 	e.PATCH("/withdraw", h.Withdraw)
+	e.PATCH("/transfer", h.Transfer)
 }
 
 // Function to get balance by username
@@ -137,6 +138,50 @@ func (h *BalanceHandler) Withdraw(c echo.Context) error {
 	// Return balance
 	return c.JSON(http.StatusOK, map[string]interface{}{
 		"message": "Balance withdrawn",
+		"balance": balance,
+	})
+}
+
+// Function to transfer balance
+func (h *BalanceHandler) Transfer(c echo.Context) error {
+	// Get username from jwt context
+	user := c.Get("user").(*jwt.Token)
+	claims := user.Claims.(*auth.Claims)
+	username := claims.Username
+
+	// Create transfer struct
+	transfer := new(SchemaTransfer)
+	if err := c.Bind(transfer); err != nil {
+		log.Println("[balances] [handler] error binding request body, err: ", err.Error())
+		return c.JSON(http.StatusBadRequest, map[string]interface{}{
+			"message": "Invalid request body",
+			"error":   err.Error(),
+		})
+	}
+
+	// Validate transfer struct
+	validate := validator.New()
+	if err := validate.Struct(transfer); err != nil {
+		log.Println("[balances] [handler] error validating request body, err: ", err.Error())
+		return c.JSON(http.StatusBadRequest, map[string]interface{}{
+			"message": "Invalid request body",
+			"error":   err.Error(),
+		})
+	}
+
+	// Transfer balance
+	balance, err := h.balanceUsecase.Transfer(username, transfer.Amount, transfer.Username)
+	if err != nil {
+		log.Println("[balances] [handler] error transferring balance, err: ", err.Error())
+		return c.JSON(http.StatusInternalServerError, map[string]interface{}{
+			"message": "Internal server error",
+			"error":   err.Error(),
+		})
+	}
+
+	// Return balance
+	return c.JSON(http.StatusOK, map[string]interface{}{
+		"message": "Balance transferred",
 		"balance": balance,
 	})
 }
