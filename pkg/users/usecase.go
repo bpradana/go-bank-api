@@ -12,11 +12,11 @@ import (
 // Declare user usecase struct
 type UserUsecase struct {
 	userRepository    domain.UserRepository
-	balanceRepository domain.BalanceRepository
+	balanceRepository domain.UserBalanceRepository
 }
 
 // Constructor function to create new user usecase
-func NewUserUsecase(userRepository domain.UserRepository, balanceRepository domain.BalanceRepository) *UserUsecase {
+func NewUserUsecase(userRepository domain.UserRepository, balanceRepository domain.UserBalanceRepository) *UserUsecase {
 	return &UserUsecase{
 		userRepository:    userRepository,
 		balanceRepository: balanceRepository,
@@ -41,7 +41,7 @@ func (u *UserUsecase) Register(user *domain.User) (*domain.User, error) {
 	}
 
 	// Create balance
-	balanceToCreate := &domain.Balance{
+	balanceToCreate := &domain.UserBalance{
 		UserID:         registeredUser.ID,
 		Balance:        0,
 		BalanceAchieve: "Rp 0",

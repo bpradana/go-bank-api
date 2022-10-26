@@ -1,4 +1,4 @@
-package balances
+package userBalances
 
 import (
 	"errors"
@@ -10,12 +10,12 @@ import (
 
 // Declare balance usecase struct
 type BalanceUsecase struct {
-	balanceRepository domain.BalanceRepository
+	balanceRepository domain.UserBalanceRepository
 	userRepository    domain.UserRepository
 }
 
 // Constructor function to create new balance usecase
-func NewBalanceUsecase(balanceRepository domain.BalanceRepository, userRepository domain.UserRepository) *BalanceUsecase {
+func NewUserBalanceUsecase(balanceRepository domain.UserBalanceRepository, userRepository domain.UserRepository) *BalanceUsecase {
 	return &BalanceUsecase{
 		balanceRepository: balanceRepository,
 		userRepository:    userRepository,
@@ -23,7 +23,7 @@ func NewBalanceUsecase(balanceRepository domain.BalanceRepository, userRepositor
 }
 
 // Function to get balance by username
-func (u *BalanceUsecase) CheckBalance(username string) (*domain.Balance, error) {
+func (u *BalanceUsecase) CheckBalance(username string) (*domain.UserBalance, error) {
 	// Get user by username
 	user, err := u.userRepository.GetByUsername(username)
 	if err != nil {
@@ -42,7 +42,7 @@ func (u *BalanceUsecase) CheckBalance(username string) (*domain.Balance, error) 
 }
 
 // Function to deposit balance
-func (u *BalanceUsecase) Deposit(username string, amount int) (*domain.Balance, error) {
+func (u *BalanceUsecase) Deposit(username string, amount int) (*domain.UserBalance, error) {
 	// Get user by username
 	user, err := u.userRepository.GetByUsername(username)
 	if err != nil {
@@ -70,7 +70,7 @@ func (u *BalanceUsecase) Deposit(username string, amount int) (*domain.Balance, 
 }
 
 // Function to withdraw balance
-func (u *BalanceUsecase) Withdraw(username string, amount int) (*domain.Balance, error) {
+func (u *BalanceUsecase) Withdraw(username string, amount int) (*domain.UserBalance, error) {
 	// Get user by username
 	user, err := u.userRepository.GetByUsername(username)
 	if err != nil {
@@ -104,7 +104,7 @@ func (u *BalanceUsecase) Withdraw(username string, amount int) (*domain.Balance,
 }
 
 // Function to transfer balance
-func (u *BalanceUsecase) Transfer(username string, amount int, toUsername string) (*domain.Balance, error) {
+func (u *BalanceUsecase) Transfer(username string, amount int, toUsername string) (*domain.UserBalance, error) {
 	// Get user by username
 	user, err := u.userRepository.GetByUsername(username)
 	if err != nil {

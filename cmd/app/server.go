@@ -11,8 +11,9 @@ import (
 
 	"gitlab.com/bpradana/privy-pretest/cmd/auth"
 	"gitlab.com/bpradana/privy-pretest/cmd/db"
-	"gitlab.com/bpradana/privy-pretest/pkg/balances"
-	"gitlab.com/bpradana/privy-pretest/pkg/users"
+
+	userBalances "gitlab.com/bpradana/privy-pretest/pkg/user-balances"
+	users "gitlab.com/bpradana/privy-pretest/pkg/users"
 )
 
 func main() {
@@ -42,17 +43,17 @@ func main() {
 	}
 
 	userRepository := users.NewUserRepository(db)
-	balanceRepository := balances.NewBalanceRepository(db)
+	balanceRepository := userBalances.NewUserBalanceRepository(db)
 
 	userUsecase := users.NewUserUsecase(userRepository, balanceRepository)
-	balanceUsecase := balances.NewBalanceUsecase(balanceRepository, userRepository)
+	balanceUsecase := userBalances.NewUserBalanceUsecase(balanceRepository, userRepository)
 
 	usersGroup := e.Group("/api/v1/users")
 	users.NewUserHandler(usersGroup, userUsecase)
 
 	balancesGroup := e.Group("/api/v1/balances")
 	balancesGroup.Use(middleware.JWTWithConfig(config))
-	balances.NewBalanceHandler(balancesGroup, balanceUsecase)
+	userBalances.NewUserBalanceHandler(balancesGroup, balanceUsecase)
 
 	// Start server
 	e.Logger.Fatal(e.Start(":1323"))

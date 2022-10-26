@@ -1,4 +1,4 @@
-package balances
+package userBalances
 
 import (
 	"log"
@@ -14,8 +14,8 @@ type BalanceRepository struct {
 }
 
 // Constructor function to create new balance repository
-func NewBalanceRepository(db *gorm.DB) *BalanceRepository {
-	db.AutoMigrate(&domain.Balance{})
+func NewUserBalanceRepository(db *gorm.DB) *BalanceRepository {
+	db.AutoMigrate(&domain.UserBalance{})
 
 	return &BalanceRepository{
 		db: db,
@@ -23,7 +23,7 @@ func NewBalanceRepository(db *gorm.DB) *BalanceRepository {
 }
 
 // Function to create balance in database
-func (r *BalanceRepository) Create(balance *domain.Balance) (*domain.Balance, error) {
+func (r *BalanceRepository) Create(balance *domain.UserBalance) (*domain.UserBalance, error) {
 	err := r.db.Create(balance).Error
 	if err != nil {
 		log.Println("[balances] [repository] error creating balance, err: ", err.Error())
@@ -34,8 +34,8 @@ func (r *BalanceRepository) Create(balance *domain.Balance) (*domain.Balance, er
 }
 
 // Function to get balance by user id
-func (r *BalanceRepository) GetByUserID(id uint) (*domain.Balance, error) {
-	var balance domain.Balance
+func (r *BalanceRepository) GetByUserID(id uint) (*domain.UserBalance, error) {
+	var balance domain.UserBalance
 
 	err := r.db.Where("user_id = ?", id).First(&balance).Error
 	if err != nil {
@@ -47,8 +47,8 @@ func (r *BalanceRepository) GetByUserID(id uint) (*domain.Balance, error) {
 }
 
 // Function to update balance in database
-func (r *BalanceRepository) Update(id uint, balance *domain.Balance) (*domain.Balance, error) {
-	var oldBalance domain.Balance
+func (r *BalanceRepository) Update(id uint, balance *domain.UserBalance) (*domain.UserBalance, error) {
+	var oldBalance domain.UserBalance
 
 	err := r.db.Where("id = ?", id).First(&oldBalance).Error
 	if err != nil {

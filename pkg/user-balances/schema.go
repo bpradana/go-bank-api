@@ -1,4 +1,4 @@
-package balances
+package userBalances
 
 type SchemaDepositWithdraw struct {
 	Amount int `json:"amount" validate:"required,min=1"`
