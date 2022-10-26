@@ -96,3 +96,16 @@ $ docker compose up
 $ go build -o main ./cmd/app/server.go
 $ ./main
 ```
+
+## API Documentation
+The API documentation is available as a [Postman Collection](api-docs.json) and can be imported to Postman.
+### Routes
+#### User
++ `POST /api/v1/users/register` - Register a new user
++ `POST /api/v1/users/login` - User login
+#### Balance
++ `GET /api/v1/balances/check` - Get user balance
++ `PATCH /api/v1/balances/deposit` - Deposit balance to user
++ `PATCH /api/v1/balances/withdraw` - Withdraw balance from user
++ `PATCH /api/v1/balances/transfer` - Transfer balance to another user
++ `GET /api/v1/balances/histories` - Get user balance history
