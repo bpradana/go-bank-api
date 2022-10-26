@@ -33,4 +33,5 @@ type UserBalanceHistoryUsecase interface {
 // UserBalanceHistoryRepository is a interface that represent user balance history repository
 type UserBalanceHistoryRepository interface {
 	GetByBalanceID(id uint) (*[]UserBalanceHistory, error)
+	Create(userBalanceHistory *UserBalanceHistory) (*UserBalanceHistory, error)
 }
