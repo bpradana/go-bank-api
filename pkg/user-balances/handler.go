@@ -1,4 +1,4 @@
-package balances
+package userBalances
 
 import (
 	"log"
@@ -14,11 +14,11 @@ import (
 
 // Declare balance handler struct
 type BalanceHandler struct {
-	balanceUsecase domain.BalanceUsecase
+	balanceUsecase domain.UserBalanceUsecase
 }
 
 // Constructor function to create new balance handler
-func NewBalanceHandler(e *echo.Group, balanceUsecase domain.BalanceUsecase) {
+func NewUserBalanceHandler(e *echo.Group, balanceUsecase domain.UserBalanceUsecase) {
 	h := &BalanceHandler{
 		balanceUsecase: balanceUsecase,
 	}
