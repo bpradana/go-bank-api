@@ -103,6 +103,7 @@ The API documentation is available as a [Postman Collection](api-docs.json) and 
 #### User
 + `POST /api/v1/users/register` - Register a new user
 + `POST /api/v1/users/login` - User login
++ `GET /api/v1/users/logout` - User logout
 #### Balance
 + `GET /api/v1/balances/check` - Get user balance
 + `PATCH /api/v1/balances/deposit` - Deposit balance to user
