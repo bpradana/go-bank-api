@@ -1,6 +1,7 @@
 package domain
 
 import (
+	"github.com/labstack/echo/v4"
 	"gorm.io/gorm"
 )
 
@@ -15,7 +16,8 @@ type User struct {
 // UserUseCase is a interface that represent user usecase
 type UserUsecase interface {
 	Register(u *User) (*User, error)
-	Login(u *User) (*User, string, error)
+	Login(u *User, c echo.Context) (*User, string, error)
+	Logout(c echo.Context) error
 }
 
 // UserRepository is a interface that represent user repository

@@ -3,6 +3,7 @@ package users
 import (
 	"log"
 
+	"github.com/labstack/echo/v4"
 	"golang.org/x/crypto/bcrypt"
 
 	"gitlab.com/bpradana/privy-pretest/cmd/auth"
@@ -56,7 +57,7 @@ func (u *UserUsecase) Register(user *domain.User) (*domain.User, error) {
 }
 
 // Function to login user
-func (u *UserUsecase) Login(user *domain.User) (*domain.User, string, error) {
+func (u *UserUsecase) Login(user *domain.User, c echo.Context) (*domain.User, string, error) {
 	// Get user by email
 	userByEmail, err := u.userRepository.GetByEmail(user.Email)
 	if err != nil {
@@ -72,7 +73,15 @@ func (u *UserUsecase) Login(user *domain.User) (*domain.User, string, error) {
 	}
 
 	// Generate token
-	token, err := auth.GenerateToken(userByEmail)
+	token, err := auth.GenerateTokenAndSetCookie(userByEmail, c)
 
 	return userByEmail, token, nil
+}
+
+// Function to logout user
+func (u *UserUsecase) Logout(c echo.Context) error {
+	// Delete token cookie
+	auth.DeleteTokenCookie(c)
+
+	return nil
 }

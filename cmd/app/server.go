@@ -39,8 +39,9 @@ func main() {
 
 	// Routes
 	config := middleware.JWTConfig{
-		Claims:     &auth.Claims{},
-		SigningKey: []byte(os.Getenv("JWT_SECRET")),
+		Claims:      &auth.Claims{},
+		SigningKey:  []byte(os.Getenv("JWT_SECRET")),
+		TokenLookup: "cookie:access_token",
 	}
 
 	userRepository := users.NewUserRepository(db)

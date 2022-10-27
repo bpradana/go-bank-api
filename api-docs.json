@@ -350,6 +350,69 @@
 							"body": "{\n    \"data\": {\n        \"ID\": 1,\n        \"CreatedAt\": \"2022-10-25T16:40:54.151159Z\",\n        \"UpdatedAt\": \"2022-10-25T16:40:54.151159Z\",\n        \"DeletedAt\": null,\n        \"username\": \"bintang\",\n        \"email\": \"bintang@mail.com\",\n        \"password\": \"$2a$10$HIezuXWbQ51nSoieU89S0OA.uGffhdJMAfCerUg2KbXBAFvV.Vg.S\"\n    },\n    \"message\": \"User logged in\",\n    \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwidXNlcm5hbWUiOiJiaW50YW5nIiwiZW1haWwiOiJiaW50YW5nQG1haWwuY29tIn0.kNi7hEOQbw3d5Drnri1mUFnTGBsykCkzRBeywGan4e0\"\n}"
 						}
 					]
+				},
+				{
+					"name": "Logout",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/api/v1/users/logout",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"users",
+								"logout"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "200 OK",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/api/v1/users/logout",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"users",
+										"logout"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=UTF-8"
+								},
+								{
+									"key": "Set-Cookie",
+									"value": "access_token=; Path=/; Expires=Wed, 26 Oct 2022 23:28:56 GMT; HttpOnly"
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 27 Oct 2022 00:28:56 GMT"
+								},
+								{
+									"key": "Content-Length",
+									"value": "30"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"User logged out\"\n}"
+						}
+					]
 				}
 			]
 		},
@@ -924,8 +987,30 @@
 				{
 					"name": "histories",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwidXNlcm5hbWUiOiJiaW50YW5nIiwiZW1haWwiOiJiaW50YW5nQG1haWwuY29tIn0.kNi7hEOQbw3d5Drnri1mUFnTGBsykCkzRBeywGan4e0",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
-						"header": []
+						"header": [],
+						"url": {
+							"raw": "{{url}}/api/v1/balances/histories",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"balances",
+								"histories"
+							]
+						}
 					},
 					"response": [
 						{
