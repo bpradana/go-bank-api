@@ -22,7 +22,7 @@ type IPLocation struct {
 
 func GetIPLocation(ip string) (location string, err error) {
 	// Check if ip is local
-	if strings.HasPrefix(ip, "192") {
+	if strings.HasPrefix(ip, "192") || strings.HasPrefix(ip, "127") || strings.HasPrefix(ip, "10") || strings.HasPrefix(ip, "172") {
 		return "local", nil
 	}
 

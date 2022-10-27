@@ -24,6 +24,7 @@ func NewUserHandler(e *echo.Group, userUsecase domain.UserUsecase) {
 	// Routes
 	e.POST("/register", h.Register)
 	e.POST("/login", h.Login)
+	e.GET("/logout", h.Logout)
 }
 
 // Function to register user
@@ -105,7 +106,7 @@ func (h *UserHandler) Login(c echo.Context) error {
 	}
 
 	// Login user
-	loggedInUser, token, err := h.userUsecase.Login(userToLogin)
+	loggedInUser, token, err := h.userUsecase.Login(userToLogin, c)
 	if err != nil {
 		log.Println("[users] [handler] [Login] error logging in user, err: ", err.Error())
 		return c.JSON(http.StatusInternalServerError, map[string]interface{}{
@@ -119,5 +120,23 @@ func (h *UserHandler) Login(c echo.Context) error {
 		"message": "User logged in",
 		"data":    loggedInUser,
 		"token":   token,
+	})
+}
+
+// Function to logout user
+func (h *UserHandler) Logout(c echo.Context) error {
+	// Logout user
+	err := h.userUsecase.Logout(c)
+	if err != nil {
+		log.Println("[users] [handler] [Logout] error logging out user, err: ", err.Error())
+		return c.JSON(http.StatusInternalServerError, map[string]interface{}{
+			"message": "Internal server error",
+			"error":   err.Error(),
+		})
+	}
+
+	// Return response
+	return c.JSON(http.StatusOK, map[string]interface{}{
+		"message": "User logged out",
 	})
 }
