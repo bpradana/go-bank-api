@@ -423,14 +423,7 @@
 					"name": "check",
 					"request": {
 						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwidXNlcm5hbWUiOiJiaW50YW5nIiwiZW1haWwiOiJiaW50YW5nQG1haWwuY29tIn0.kNi7hEOQbw3d5Drnri1mUFnTGBsykCkzRBeywGan4e0",
-									"type": "string"
-								}
-							]
+							"type": "noauth"
 						},
 						"method": "GET",
 						"header": [],
@@ -492,14 +485,7 @@
 					"name": "deposit",
 					"request": {
 						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwidXNlcm5hbWUiOiJiaW50YW5nIiwiZW1haWwiOiJiaW50YW5nQG1haWwuY29tIn0.kNi7hEOQbw3d5Drnri1mUFnTGBsykCkzRBeywGan4e0",
-									"type": "string"
-								}
-							]
+							"type": "noauth"
 						},
 						"method": "PATCH",
 						"header": [],
@@ -626,14 +612,7 @@
 					"name": "withdraw",
 					"request": {
 						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwidXNlcm5hbWUiOiJiaW50YW5nIiwiZW1haWwiOiJiaW50YW5nQG1haWwuY29tIn0.kNi7hEOQbw3d5Drnri1mUFnTGBsykCkzRBeywGan4e0",
-									"type": "string"
-								}
-							]
+							"type": "noauth"
 						},
 						"method": "PATCH",
 						"header": [],
@@ -807,14 +786,7 @@
 					"name": "transfer",
 					"request": {
 						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwidXNlcm5hbWUiOiJiaW50YW5nIiwiZW1haWwiOiJiaW50YW5nQG1haWwuY29tIn0.kNi7hEOQbw3d5Drnri1mUFnTGBsykCkzRBeywGan4e0",
-									"type": "string"
-								}
-							]
+							"type": "noauth"
 						},
 						"method": "PATCH",
 						"header": [],
@@ -988,14 +960,7 @@
 					"name": "histories",
 					"request": {
 						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwidXNlcm5hbWUiOiJiaW50YW5nIiwiZW1haWwiOiJiaW50YW5nQG1haWwuY29tIn0.kNi7hEOQbw3d5Drnri1mUFnTGBsykCkzRBeywGan4e0",
-									"type": "string"
-								}
-							]
+							"type": "noauth"
 						},
 						"method": "GET",
 						"header": [],
