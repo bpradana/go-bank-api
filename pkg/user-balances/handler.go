@@ -5,7 +5,6 @@ import (
 	"net/http"
 
 	"github.com/go-playground/validator/v10"
-	"github.com/golang-jwt/jwt"
 	"github.com/labstack/echo/v4"
 
 	"gitlab.com/bpradana/privy-pretest/cmd/auth"
@@ -33,9 +32,14 @@ func NewUserBalanceHandler(e *echo.Group, balanceUsecase domain.UserBalanceUseca
 // Function to get balance by username
 func (h *UserBalanceHandler) Check(c echo.Context) error {
 	// Get username from jwt context
-	user := c.Get("user").(*jwt.Token)
-	claims := user.Claims.(*auth.Claims)
-	username := claims.Username
+	username, err := auth.GetUsernameFromToken(c)
+	if err != nil {
+		log.Println("[balances] [handler] [Check] error getting username from token, err: ", err.Error())
+		return c.JSON(http.StatusInternalServerError, map[string]interface{}{
+			"message": "Internal server error",
+			"error":   err.Error(),
+		})
+	}
 
 	// Get balance by username
 	balance, err := h.balanceUsecase.Check(username)
@@ -57,9 +61,14 @@ func (h *UserBalanceHandler) Check(c echo.Context) error {
 // Function to deposit balance
 func (h *UserBalanceHandler) Deposit(c echo.Context) error {
 	// Get username from jwt context
-	user := c.Get("user").(*jwt.Token)
-	claims := user.Claims.(*auth.Claims)
-	username := claims.Username
+	username, err := auth.GetUsernameFromToken(c)
+	if err != nil {
+		log.Println("[balances] [handler] [Check] error getting username from token, err: ", err.Error())
+		return c.JSON(http.StatusInternalServerError, map[string]interface{}{
+			"message": "Internal server error",
+			"error":   err.Error(),
+		})
+	}
 
 	// Create deposit struct
 	deposit := new(SchemaDepositWithdraw)
@@ -101,9 +110,14 @@ func (h *UserBalanceHandler) Deposit(c echo.Context) error {
 // Function to withdraw balance
 func (h *UserBalanceHandler) Withdraw(c echo.Context) error {
 	// Get username from jwt context
-	user := c.Get("user").(*jwt.Token)
-	claims := user.Claims.(*auth.Claims)
-	username := claims.Username
+	username, err := auth.GetUsernameFromToken(c)
+	if err != nil {
+		log.Println("[balances] [handler] [Check] error getting username from token, err: ", err.Error())
+		return c.JSON(http.StatusInternalServerError, map[string]interface{}{
+			"message": "Internal server error",
+			"error":   err.Error(),
+		})
+	}
 
 	// Create withdraw struct
 	withdraw := new(SchemaDepositWithdraw)
@@ -145,9 +159,14 @@ func (h *UserBalanceHandler) Withdraw(c echo.Context) error {
 // Function to transfer balance
 func (h *UserBalanceHandler) Transfer(c echo.Context) error {
 	// Get username from jwt context
-	user := c.Get("user").(*jwt.Token)
-	claims := user.Claims.(*auth.Claims)
-	username := claims.Username
+	username, err := auth.GetUsernameFromToken(c)
+	if err != nil {
+		log.Println("[balances] [handler] [Check] error getting username from token, err: ", err.Error())
+		return c.JSON(http.StatusInternalServerError, map[string]interface{}{
+			"message": "Internal server error",
+			"error":   err.Error(),
+		})
+	}
 
 	// Create transfer struct
 	transfer := new(SchemaTransfer)
