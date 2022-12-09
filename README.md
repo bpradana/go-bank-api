@@ -1,4 +1,4 @@
-# PrivyID Backend Pretest
+# Bank API
 Bintang Pradana Erlangga Putra
 bintangpradana02@gmail.com
 
