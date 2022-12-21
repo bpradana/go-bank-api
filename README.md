@@ -1,16 +1,11 @@
 # Bank API
-Bintang Pradana Erlangga Putra
-bintangpradana02@gmail.com
+A simple REST API banking system 
 
-## Test Description
-1. Create a web service with RESTful API type with the database schema listed above
-2. USER domain can do the login and logout process
-3. USER domain can perform additional balance actions which will be recorded in the user_balance table
-4. USER domain can perform other transfer actions to other USER
-5. If necessary, it is allowed to add columns with any data types to the table
-6. Each endpoint of the web service must put forward a security issue with the authorization method
-7. Apply the Single-responsibility principle
-8. Using Ruby or Golang is a plus
+## Requirements
+1. User should be able to login and logout
+2. User should be able to deposit and withdraw balance
+3. User should be able to transfer balance to other user
+4. All activities should be recorded 
 
 ## Tech Stack
 1. Go 1.19
